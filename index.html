@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
 <title>Chuyện Nhỏ Ngày 20/10</title>
 <style>
   :root{
@@ -94,6 +95,7 @@
     padding:6px;
     box-shadow: 0 4px 12px rgba(80,40,70,0.06);
     cursor:pointer;
+    transition: all 0.3s ease;
   }
   .node .n{font-weight:700;color:var(--muted);font-size:13px}
   .node.active{background:linear-gradient(180deg,var(--accent),#ffb0d1);color:white}
@@ -112,28 +114,37 @@
   .stage-viewport{
     width:var(--card-w);
     height:540px;
-    overflow:hidden;
     border-radius:18px;
     background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,250,255,0.45));
     box-shadow: var(--shadow);
     position:relative;
   }
 
+  /* NEW: Scene transition effect */
   .scenes{
-    display:flex;
+    position:relative;
+    width:100%;
     height:100%;
-    transition:transform 550ms cubic-bezier(.2,.9,.25,1);
-    will-change:transform;
   }
   .scene{
-    width:var(--card-w);
+    width:100%;
+    height:100%;
     padding:28px;
-    flex-shrink:0;
-    position:relative;
+    position:absolute;
+    top:0; left:0;
     display:flex;
     flex-direction:column;
     gap:16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 600ms ease-in-out, visibility 600ms ease-in-out;
+    will-change: opacity, visibility;
   }
+  .scene.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* END NEW */
 
   .scene .bg{
     position:absolute;inset:0;
@@ -161,6 +172,11 @@
   .actions{display:flex;gap:8px}
   button.btn{
     background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(255,120,180,0.14);
+    transition: all 0.2s ease;
+  }
+  button.btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255,120,180,0.2);
   }
   button.ghost{background:transparent;border:1px solid rgba(120,70,100,0.08);color:var(--muted);font-weight:600}
   button.small{padding:8px 10px;font-size:14px;border-radius:9px}
@@ -173,7 +189,7 @@
     margin-top:6px;
     overflow:hidden;
   }
-  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#ffb0d1);width:0%}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#ffb0d1);width:0%; transition: width 0.5s ease;}
 
   .petal{
     position:fixed;
@@ -186,6 +202,33 @@
     filter: drop-shadow(0 6px 10px rgba(200,100,150,0.09));
   }
   .petal svg{display:block}
+  
+  /* NEW: Page load animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  header, .timeline-wrap, .stage, footer {
+      animation: fadeInUp 0.8s ease-out both;
+  }
+  header { animation-delay: 0.1s; }
+  .timeline-wrap { animation-delay: 0.2s; }
+  .stage { animation-delay: 0.3s; }
+  footer { animation-delay: 0.4s; }
+  
+  /* NEW: Enhanced text animation */
+  .text .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: charFadeIn 0.5s ease-out forwards;
+  }
+  @keyframes charFadeIn {
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
 
   @media (max-width:840px){
     :root{--card-w:92vw}
@@ -238,7 +281,7 @@
   </footer>
 
   <div style="max-width:1200px;margin-top:6px;text-align:center;font-size:12px;color:var(--muted)">
-    🎵 Nhạc nền: “Sunny” — KODOMOi. Vui lòng đặt file <code>sunny.mp3</code> vào cùng thư mục với file này để phát nhạc. Nếu không có, trang sẽ chơi âm thanh nền nhẹ thay thế.
+    🎵 Nhạc nền: “Sunny” — KODOMOi.
   </div>
 
 </div>
@@ -255,7 +298,7 @@
 const scenes = [
   { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương." },
   { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn." },
-  { speaker: "Người kể", text: "Gửi em — người luôn tràn đầy năng lượng, luôn muốn làm thật nhiều điều, nhưng đôi khi cũng cần chậm lại để nạp lại năng lượng cho tim mình." },
+  { speaker: "Người kể", text: "Gửi em — người biết chăm từng li từng tí, nấu bữa, gói ghém ngăn nắp, và thỉnh thoảng quên dành cho bản thân một chút." },
   { speaker: "", text: "Mình muốn tặng em một ngày nhỏ đầy bất ngờ: một lời khen, một cái ôm, một món quà bé xinh." },
   { speaker: "Bạn", text: "Em xứng đáng được yêu thương bằng cả những điều giản dị nhất." },
   { speaker: "Người kể", text: "Nếu hôm nay em nhận được hoa, xin nhớ rằng đó là lời cảm ơn cho nụ cười em trao." },
@@ -266,9 +309,9 @@ const scenes = [
   { speaker: "Bạn", text: "Cảm ơn em vì đã tồn tại, vì đã làm bầu trời gần hơn một chút với nụ cười." },
   { speaker: "Người kể", text: "Chúc em luôn hiền lành, cá tính, và có nhiều ngày đẹp như hôm nay." },
   { speaker: "", text: "Gửi em — người con gái xinh đẹp: giữ nụ cười, giữ ấm áp, và đừng quên bản thân." },
-  { speaker: "Bạn", text: "Chúc mừng 20/10! Hy vọng em có một ngày đầy niềm vui và bánh ngọt." },
+  { speaker: "Bạn", "Chúc mừng 20/10! Hy vọng em có một ngày đầy niềm vui và bánh ngọt." },
   { speaker: "Người kể", text: "Hẹn gặp lại trong những khoảnh khắc bé nhỏ khác — nơi em luôn được yêu thương." },
-  { speaker: "", text: "💐 Tặng em: một lời chúc chân thành từ trong trái tim." }
+  { speaker: "", text: "💐 Tặng em: một lời chúc chân thành từ trái tim." }
 ];
 
 const timelineEl = document.getElementById('timeline');
@@ -283,12 +326,12 @@ scenes.forEach((s, i) => {
   const node = document.createElement('div');
   node.className = 'node' + (i===0?' active':'');
   node.dataset.index = i;
-  node.innerHTML = `<div class="n">#${i+1}</div><div style="font-size:12px">${(s.speaker||'') || '...'} </div>`;
+  node.innerHTML = `<div class="n">#${i+1}</div><div style="font-size:12px">${s.speaker || '...'}</div>`;
   node.addEventListener('click', ()=> goTo(i));
   timelineEl.appendChild(node);
 
   const sc = document.createElement('div');
-  sc.className = 'scene';
+  sc.className = 'scene' + (i===0?' active':'');
   sc.innerHTML = `
     <div class="bg"></div>
     <div style="display:flex;gap:12px;align-items:center">
@@ -313,161 +356,178 @@ scenes.forEach((s, i) => {
   scenesEl.appendChild(sc);
 });
 
-document.querySelectorAll('[data-next]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    next();
-  });
-});
-document.querySelectorAll('[data-skip]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    showFullText(idx);
-  });
-});
+document.querySelectorAll('[data-next]').forEach(btn => btn.addEventListener('click', next));
+document.querySelectorAll('[data-skip]').forEach(btn => showFullText(idx));
 
 document.addEventListener('keydown', (e)=>{
-  if(e.key === 'ArrowRight') next();
-  if(e.key === 'ArrowLeft') prev();
+  if (e.key === 'ArrowRight') next();
+  if (e.key === 'ArrowLeft') prev();
 });
 
 function updateUI(){
   const nodes = timelineEl.querySelectorAll('.node');
-  nodes.forEach((n, i)=>{
-    n.classList.toggle('active', i===idx);
+  nodes.forEach((n, i) => {
+    n.classList.toggle('active', i === idx);
     n.classList.toggle('completed', i < idx);
   });
-  const sceneWidth = document.querySelector('.scene').offsetWidth;
-  scenesEl.style.transform = `translateX(${ - idx * sceneWidth }px)`;
-  countEl.textContent = `${idx+1} / ${total}`;
-  const pct = Math.round(((idx) / (total-1)) * 100);
+  
+  // NEW: Scene fade transition logic
+  const allScenes = scenesEl.querySelectorAll('.scene');
+  allScenes.forEach((sc, i) => {
+    sc.classList.toggle('active', i === idx);
+  });
+
+  countEl.textContent = `${idx + 1} / ${total}`;
+  const pct = Math.round((idx / (total - 1)) * 100);
   barEl.style.width = pct + '%';
   typeScene(idx);
   const activeNode = timelineEl.querySelector('.node.active');
-  if(activeNode) activeNode.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+  if (activeNode) activeNode.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
 }
 
 function next(){
-  if(idx < total-1){ idx++; updateUI(); } else { celebration(); }
+  if (idx < total - 1) { idx++; updateUI(); } else { celebration(); }
 }
 function prev(){
-  if(idx > 0){ idx--; updateUI(); }
+  if (idx > 0) { idx--; updateUI(); }
 }
 function goTo(i){
-  if(i>=0 && i<total){ idx = i; updateUI(); }
+  if (i >= 0 && i < total) { idx = i; updateUI(); }
 }
 
 let typingTimer = null;
-function typeScene(i){
+function typeScene(i) {
   clearTyping();
   const el = document.getElementById(`text-${i}`);
-  if(!el) return;
+  if (!el) return;
   const str = scenes[i].text || '';
-  el.textContent = '';
-  let pos = 0;
-  const speed = 28;
-  typingTimer = setInterval(()=>{
-    pos++;
-    el.textContent = str.slice(0,pos);
-    if(pos >= str.length){ clearTyping(); }
-  }, speed);
+  el.innerHTML = '';
+  let charIndex = 0;
+  
+  // NEW: Enhanced character-by-character animation
+  typingTimer = setInterval(() => {
+    if (charIndex < str.length) {
+      const charSpan = document.createElement('span');
+      charSpan.className = 'char';
+      charSpan.textContent = str[charIndex];
+      charSpan.style.animationDelay = `${charIndex * 0.02}s`;
+      el.appendChild(charSpan);
+      charIndex++;
+    } else {
+      clearTyping();
+    }
+  }, 28);
 }
+
 function clearTyping(){
-  if(typingTimer){ clearInterval(typingTimer); typingTimer = null; }
+  if (typingTimer) { clearInterval(typingTimer); typingTimer = null; }
 }
-function showFullText(i){
+
+function showFullText(i) {
   clearTyping();
   const el = document.getElementById(`text-${i}`);
-  if(el) el.textContent = scenes[i].text || '';
+  if (el) {
+    el.innerHTML = scenes[i].text.split('').map(char => `<span class="char" style="opacity:1; transform:none;">${char}</span>`).join('');
+  }
 }
+
 function celebration(){
-  for(let a=0;a<40;a++) spawnPetal(true);
-  setTimeout(()=> alert('Cảm ơn đã xem! Chúc mừng 20/10 🌸'), 600);
+  for (let a = 0; a < 40; a++) spawnPetal(true);
+  setTimeout(() => alert('Cảm ơn đã xem! Chúc mừng 20/10 🌸'), 600);
 }
 
 updateUI();
 
 const petalTemplate = document.getElementById('petal-template').content;
-function spawnPetal(big=false){
+function spawnPetal(big = false){
   const node = petalTemplate.cloneNode(true).children[0];
   document.body.appendChild(node);
   const startX = Math.random() * window.innerWidth;
-  node.style.left = (startX) + 'px';
-  node.style.top = (-10 - Math.random()*80)+'px';
-  const dur = 6000 + Math.random()*6000;
-  const rotate = (Math.random()*360)|0;
+  node.style.left = startX + 'px';
+  node.style.top = (-10 - Math.random() * 80) + 'px';
+  const dur = 6000 + Math.random() * 6000;
+  const rotate = (Math.random() * 360) | 0;
   node.animate([
     { transform: `translateY(0) rotate(${rotate}deg)`, opacity: 0.95 },
-    { transform: `translateY(${window.innerHeight + 120}px) rotate(${rotate+360}deg)`, opacity: 0.9 }
-  ], { duration: dur, easing:'linear' });
+    { transform: `translateY(${window.innerHeight + 120}px) rotate(${rotate + 360}deg)`, opacity: 0.9 }
+  ], { duration: dur, easing: 'linear' });
   node.animate([
     { transform: `translateX(0)` },
-    { transform: `translateX(${(Math.random()-0.5)*300}px)` }
-  ], { duration: dur, direction:'alternate', iterations: Infinity });
-  setTimeout(()=> { node.remove(); }, dur+50);
+    { transform: `translateX(${(Math.random() - 0.5) * 300}px)` }
+  ], { duration: dur, direction: 'alternate', iterations: Infinity, easing: 'ease-in-out' });
+  setTimeout(() => { node.remove(); }, dur + 50);
 }
-setInterval(()=> spawnPetal(), 800);
+setInterval(() => spawnPetal(), 800);
 
-/* Audio setup: if sunny.mp3 exists in same folder it will be used.
-   Otherwise a simple ambient synth is used as fallback. */
-let audio = new Audio();
+// --- NEW: Enhanced Audio Handling with Fade In/Out ---
+let audio = new Audio('./sunny.mp3');
 audio.loop = true;
-audio.src = './sunny.mp3';
-audio.crossOrigin = 'anonymous';
-
 const playBtn = document.getElementById('playMusic');
-let musicOn = false;
+let audioFadeInterval = null;
 
-playBtn.addEventListener('click', async ()=>{
-  try {
-    if (audio.src && audio.src.indexOf('sunny.mp3') !== -1) {
-      if (audio.paused) {
-        await audio.play();
-        playBtn.textContent = 'Pause nhạc';
-        musicOn = true;
-      } else {
-        audio.pause();
-        playBtn.textContent = 'Play nhạc';
-        musicOn = false;
-      }
-    } else {
-      if(!musicOn){ startAmbient(); playBtn.textContent='Pause nhạc'; musicOn=true; }
-      else { stopAmbient(); playBtn.textContent='Play nhạc'; musicOn=false; }
+function fadeAudio(targetVolume, duration = 1000) {
+    if (audioFadeInterval) clearInterval(audioFadeInterval);
+    
+    const startVolume = audio.volume;
+    const step = (targetVolume - startVolume) / (duration / 50);
+    
+    audioFadeInterval = setInterval(() => {
+        const newVolume = audio.volume + step;
+        if ((step > 0 && newVolume >= targetVolume) || (step < 0 && newVolume <= targetVolume)) {
+            audio.volume = targetVolume;
+            if (targetVolume === 0) audio.pause();
+            clearInterval(audioFadeInterval);
+        } else {
+            audio.volume = newVolume;
+        }
+    }, 50);
+}
+
+playBtn.addEventListener('click', async () => {
+    try {
+        if (audio.paused) {
+            audio.volume = 0;
+            await audio.play();
+            fadeAudio(0.5); // Fade in to 50% volume
+            playBtn.textContent = 'Pause nhạc';
+        } else {
+            fadeAudio(0); // Fade out
+            playBtn.textContent = 'Play nhạc';
+        }
+    } catch (err) {
+        console.warn("Audio play failed, starting fallback synth.", err);
+        startAmbient(); // Fallback if audio file fails
     }
-  } catch(err){
-    console.warn('Audio error', err);
-    if(!musicOn){ startAmbient(); playBtn.textContent='Pause nhạc'; musicOn=true; }
-    else { stopAmbient(); playBtn.textContent='Play nhạc'; musicOn=false; }
-  }
 });
+// END NEW
 
-/* Simple ambient synth fallback */
 let audioCtx, osc, gainNode;
 function startAmbient(){
+  if(audioCtx) return;
   audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   osc = audioCtx.createOscillator();
   gainNode = audioCtx.createGain();
   osc.type = 'sine';
   osc.frequency.value = 220;
-  gainNode.gain.value = 0.0015;
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 1);
   osc.connect(gainNode);
   gainNode.connect(audioCtx.destination);
   osc.start();
-  let t=0;
-  startAmbient._id = setInterval(()=>{
-    if(!osc) { clearInterval(startAmbient._id); return; }
-    osc.frequency.setValueAtTime(200 + Math.sin(t)*25, audioCtx.currentTime);
-    t += 0.02;
-  }, 60);
 }
 function stopAmbient(){
-  if(osc){ osc.stop(); osc.disconnect(); osc=null; }
-  if(gainNode){ gainNode.disconnect(); gainNode=null; }
-  if(audioCtx){ audioCtx.close(); audioCtx=null; }
-  clearInterval(startAmbient._id);
+  if(gainNode) {
+      gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
+      setTimeout(() => {
+          if (osc) { osc.stop(); osc.disconnect(); osc=null; }
+          if (gainNode) { gainNode.disconnect(); gainNode=null; }
+          if (audioCtx) { audioCtx.close(); audioCtx=null; }
+      }, 1000);
+  }
 }
 
-/* Download page as .html */
 document.getElementById('downloadBtn').addEventListener('click', ()=>{
-  const content = '<!doctype html>\\n' + document.documentElement.outerHTML;
+  const content = '<!doctype html>\n' + document.documentElement.outerHTML;
   const blob = new Blob([content], {type:'text/html;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -475,11 +535,6 @@ document.getElementById('downloadBtn').addEventListener('click', ()=>{
   document.body.appendChild(a);
   a.click();
   a.remove();
-});
-
-window.addEventListener('resize', ()=> {
-  const scene = document.querySelector('.scene');
-  if(scene) scenesEl.style.transform = `translateX(${ - idx * scene.offsetWidth }px)`;
 });
 </script>
 </body>
