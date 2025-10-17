@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chuyện Nhỏ Ngày 20/10</title>
+<style>
+  :root{
+    --bg:#fff7fb;
+    --card:#ffffffdd;
+    --accent:#ff7ab6;
+    --muted:#8b6b7a;
+    --glass: rgba(255,255,255,0.6);
+    --shadow: 0 8px 30px rgba(120,80,110,0.12);
+    --timeline-height:120px;
+    --card-w: 720px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#fff0f6 0%, var(--bg) 50%, #fff 100%);
+    color:#4b3240;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+
+  .wrap{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    padding:20px;
+  }
+
+  header{
+    width:100%;
+    max-width:1200px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .logo .mark{
+    width:56px;height:56px;border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),#ffd1e8);
+    display:flex;align-items:center;justify-content:center;
+    color:white;font-weight:700;box-shadow:var(--shadow);
+  }
+  h1{font-size:18px;margin:0}
+  .controls{display:flex;gap:8px;align-items:center}
+
+  .timeline-wrap{
+    width:100%;
+    max-width:1200px;
+    height:var(--timeline-height);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .timeline{
+    width:calc(100% - 160px);
+    height:72px;
+    background:linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0.15));
+    border-radius:40px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    padding:12px 18px;
+    box-shadow:var(--shadow);
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .timeline::-webkit-scrollbar{display:none}
+
+  .timeline .node{
+    min-width:64px;
+    height:48px;
+    background:var(--card);
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    padding:6px;
+    box-shadow: 0 4px 12px rgba(80,40,70,0.06);
+    cursor:pointer;
+  }
+  .node .n{font-weight:700;color:var(--muted);font-size:13px}
+  .node.active{background:linear-gradient(180deg,var(--accent),#ffb0d1);color:white}
+  .node.completed{opacity:0.7;transform:scale(0.98)}
+
+  .stage{
+    width:100%;
+    max-width:1200px;
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:12px;
+  }
+  .stage-viewport{
+    width:var(--card-w);
+    height:540px;
+    overflow:hidden;
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,250,255,0.45));
+    box-shadow: var(--shadow);
+    position:relative;
+  }
+
+  .scenes{
+    display:flex;
+    height:100%;
+    transition:transform 550ms cubic-bezier(.2,.9,.25,1);
+    will-change:transform;
+  }
+  .scene{
+    width:var(--card-w);
+    padding:28px;
+    flex-shrink:0;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .scene .bg{
+    position:absolute;inset:0;
+    border-radius:18px;
+    pointer-events:none;
+    background:
+      radial-gradient(1200px 400px at 10% 20%, rgba(255,220,240,0.35), transparent 10%),
+      linear-gradient(180deg, rgba(255,245,250,0.7), rgba(255,250,255,0.25));
+    filter: blur(0px);
+  }
+
+  .message-box{
+    margin-top:auto;
+    background:var(--glass);
+    border-radius:14px;
+    padding:18px;
+    box-shadow: 0 6px 24px rgba(100,50,80,0.06);
+    backdrop-filter: blur(6px);
+    border:1px solid rgba(255,255,255,0.6);
+  }
+  .speaker{font-weight:700;color:#6b3750;margin-bottom:6px}
+  .text{font-size:18px;line-height:1.45;min-height:68px;white-space:pre-wrap}
+  .meta{display:flex;align-items:center;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:13px}
+
+  .actions{display:flex;gap:8px}
+  button.btn{
+    background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(255,120,180,0.14);
+  }
+  button.ghost{background:transparent;border:1px solid rgba(120,70,100,0.08);color:var(--muted);font-weight:600}
+  button.small{padding:8px 10px;font-size:14px;border-radius:9px}
+
+  .progress{
+    width:100%;
+    height:8px;
+    background:rgba(0,0,0,0.05);
+    border-radius:999px;
+    margin-top:6px;
+    overflow:hidden;
+  }
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#ffb0d1);width:0%}
+
+  .petal{
+    position:fixed;
+    top:-60px;
+    width:14px;height:14px;
+    pointer-events:none;
+    transform-origin:center;
+    opacity:0.95;
+    z-index:10;
+    filter: drop-shadow(0 6px 10px rgba(200,100,150,0.09));
+  }
+  .petal svg{display:block}
+
+  @media (max-width:840px){
+    :root{--card-w:92vw}
+    .timeline{width:calc(100% - 120px)}
+  }
+
+  footer{
+    width:100%;
+    max-width:1200px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    color:var(--muted);font-size:13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <div class="mark">20</div>
+      <div>
+        <h1>Chuyện Nhỏ Ngày 20/10</h1>
+        <div style="font-size:13px;color:var(--muted)">Dành tặng: những cô gái xinh đẹp — một câu chuyện nhẹ, dễ thương.</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="playMusic" class="btn small">Play nhạc</button>
+      <button id="downloadBtn" class="ghost small">Tải trang (.html)</button>
+    </div>
+  </header>
+
+  <div class="timeline-wrap">
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <main class="stage">
+    <div class="stage-viewport">
+      <div class="scenes" id="scenes"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div id="count">1 / 16</div>
+    <div style="flex:1;max-width:720px;margin-left:12px">
+      <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+    </div>
+  </footer>
+
+  <div style="max-width:1200px;margin-top:6px;text-align:center;font-size:12px;color:var(--muted)">
+    🎵 Nhạc nền: “Sunny” — KODOMOi. Vui lòng đặt file <code>sunny.mp3</code> vào cùng thư mục với file này để phát nhạc. Nếu không có, trang sẽ chơi âm thanh nền nhẹ thay thế.
+  </div>
+
+</div>
+
+<template id="petal-template">
+  <div class="petal">
+    <svg viewBox="0 0 24 24" width="24" height="24" >
+      <path d="M12 2C14 6 20 7 20 11c0 4-6 10-8 11s-8-7-8-11c0-4 6-5 8-11z" fill="#ffd1e8" />
+    </svg>
+  </div>
+</template>
+
+<script>
+const scenes = [
+  { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương." },
+  { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn." },
+  { speaker: "Người kể", text: "Gửi em — người biết chăm từng li từng tí, nấu bữa, gói ghém ngăn nắp, và thỉnh thoảng quên dành cho bản thân một chút." },
+  { speaker: "", text: "Mình muốn tặng em một ngày nhỏ đầy bất ngờ: một lời khen, một cái ôm, một món quà bé xinh." },
+  { speaker: "Bạn", text: "Em xứng đáng được yêu thương bằng cả những điều giản dị nhất." },
+  { speaker: "Người kể", text: "Nếu hôm nay em nhận được hoa, xin nhớ rằng đó là lời cảm ơn cho nụ cười em trao." },
+  { speaker: "", text: "Có thể không phải hoa to, nhưng là hoa từ tấm lòng — và hoa ấy sẽ ngát." },
+  { speaker: "Bạn", text: "Mong em luôn rạng rỡ, tự tin và không ngại mơ mộng." },
+  { speaker: "Người kể", text: "Những điều nhỏ bé — một tin nhắn đúng lúc, một tách trà ấm — có thể làm ngày em bớt nặng nề." },
+  { speaker: "", text: "Hãy dành cho bản thân một chút dịu dàng, em nhé." },
+  { speaker: "Bạn", text: "Cảm ơn em vì đã tồn tại, vì đã làm bầu trời gần hơn một chút với nụ cười." },
+  { speaker: "Người kể", text: "Chúc em luôn hiền lành, cá tính, và có nhiều ngày đẹp như hôm nay." },
+  { speaker: "", text: "Gửi em — người con gái xinh đẹp: giữ nụ cười, giữ ấm áp, và đừng quên bản thân." },
+  { speaker: "Bạn", text: "Chúc mừng 20/10! Hy vọng em có một ngày đầy niềm vui và bánh ngọt." },
+  { speaker: "Người kể", text: "Hẹn gặp lại trong những khoảnh khắc bé nhỏ khác — nơi em luôn được yêu thương." },
+  { speaker: "", text: "💐 Tặng em: một lời chúc chân thành từ trái tim." }
+];
+
+const timelineEl = document.getElementById('timeline');
+const scenesEl = document.getElementById('scenes');
+const countEl = document.getElementById('count');
+const barEl = document.getElementById('bar');
+
+let idx = 0;
+const total = scenes.length;
+
+scenes.forEach((s, i) => {
+  const node = document.createElement('div');
+  node.className = 'node' + (i===0?' active':'');
+  node.dataset.index = i;
+  node.innerHTML = `<div class="n">#${i+1}</div><div style="font-size:12px">${(s.speaker||'') || '...'} </div>`;
+  node.addEventListener('click', ()=> goTo(i));
+  timelineEl.appendChild(node);
+
+  const sc = document.createElement('div');
+  sc.className = 'scene';
+  sc.innerHTML = `
+    <div class="bg"></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="width:84px;height:84px;border-radius:16px;background:linear-gradient(180deg,#fff,#ffe6f2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#8b415f">♡</div>
+      <div>
+        <div style="font-size:13px;color:var(--muted)">Scene ${i+1}</div>
+        <div style="font-weight:800;font-size:20px;margin-top:6px">${s.speaker || ''}</div>
+      </div>
+    </div>
+    <div class="message-box">
+      <div class="speaker">${s.speaker || ''}</div>
+      <div class="text" id="text-${i}"></div>
+      <div class="meta">
+        <div class="actions">
+          <button class="btn small" data-next>Tiếp</button>
+          <button class="ghost small" data-skip>Bỏ tốc độ</button>
+        </div>
+        <div style="text-align:right;color:var(--muted);font-size:13px">20/10 · Chuyện nhỏ dễ thương</div>
+      </div>
+    </div>
+  `;
+  scenesEl.appendChild(sc);
+});
+
+document.querySelectorAll('[data-next]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    next();
+  });
+});
+document.querySelectorAll('[data-skip]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    showFullText(idx);
+  });
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'ArrowRight') next();
+  if(e.key === 'ArrowLeft') prev();
+});
+
+function updateUI(){
+  const nodes = timelineEl.querySelectorAll('.node');
+  nodes.forEach((n, i)=>{
+    n.classList.toggle('active', i===idx);
+    n.classList.toggle('completed', i < idx);
+  });
+  const sceneWidth = document.querySelector('.scene').offsetWidth;
+  scenesEl.style.transform = `translateX(${ - idx * sceneWidth }px)`;
+  countEl.textContent = `${idx+1} / ${total}`;
+  const pct = Math.round(((idx) / (total-1)) * 100);
+  barEl.style.width = pct + '%';
+  typeScene(idx);
+  const activeNode = timelineEl.querySelector('.node.active');
+  if(activeNode) activeNode.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+}
+
+function next(){
+  if(idx < total-1){ idx++; updateUI(); } else { celebration(); }
+}
+function prev(){
+  if(idx > 0){ idx--; updateUI(); }
+}
+function goTo(i){
+  if(i>=0 && i<total){ idx = i; updateUI(); }
+}
+
+let typingTimer = null;
+function typeScene(i){
+  clearTyping();
+  const el = document.getElementById(`text-${i}`);
+  if(!el) return;
+  const str = scenes[i].text || '';
+  el.textContent = '';
+  let pos = 0;
+  const speed = 28;
+  typingTimer = setInterval(()=>{
+    pos++;
+    el.textContent = str.slice(0,pos);
+    if(pos >= str.length){ clearTyping(); }
+  }, speed);
+}
+function clearTyping(){
+  if(typingTimer){ clearInterval(typingTimer); typingTimer = null; }
+}
+function showFullText(i){
+  clearTyping();
+  const el = document.getElementById(`text-${i}`);
+  if(el) el.textContent = scenes[i].text || '';
+}
+function celebration(){
+  for(let a=0;a<40;a++) spawnPetal(true);
+  setTimeout(()=> alert('Cảm ơn đã xem! Chúc mừng 20/10 🌸'), 600);
+}
+
+updateUI();
+
+const petalTemplate = document.getElementById('petal-template').content;
+function spawnPetal(big=false){
+  const node = petalTemplate.cloneNode(true).children[0];
+  document.body.appendChild(node);
+  const startX = Math.random() * window.innerWidth;
+  node.style.left = (startX) + 'px';
+  node.style.top = (-10 - Math.random()*80)+'px';
+  const dur = 6000 + Math.random()*6000;
+  const rotate = (Math.random()*360)|0;
+  node.animate([
+    { transform: `translateY(0) rotate(${rotate}deg)`, opacity: 0.95 },
+    { transform: `translateY(${window.innerHeight + 120}px) rotate(${rotate+360}deg)`, opacity: 0.9 }
+  ], { duration: dur, easing:'linear' });
+  node.animate([
+    { transform: `translateX(0)` },
+    { transform: `translateX(${(Math.random()-0.5)*300}px)` }
+  ], { duration: dur, direction:'alternate', iterations: Infinity });
+  setTimeout(()=> { node.remove(); }, dur+50);
+}
+setInterval(()=> spawnPetal(), 800);
+
+/* Audio setup: if sunny.mp3 exists in same folder it will be used.
+   Otherwise a simple ambient synth is used as fallback. */
+let audio = new Audio();
+audio.loop = true;
+audio.src = './sunny.mp3';
+audio.crossOrigin = 'anonymous';
+
+const playBtn = document.getElementById('playMusic');
+let musicOn = false;
+
+playBtn.addEventListener('click', async ()=>{
+  try {
+    if (audio.src && audio.src.indexOf('sunny.mp3') !== -1) {
+      if (audio.paused) {
+        await audio.play();
+        playBtn.textContent = 'Pause nhạc';
+        musicOn = true;
+      } else {
+        audio.pause();
+        playBtn.textContent = 'Play nhạc';
+        musicOn = false;
+      }
+    } else {
+      if(!musicOn){ startAmbient(); playBtn.textContent='Pause nhạc'; musicOn=true; }
+      else { stopAmbient(); playBtn.textContent='Play nhạc'; musicOn=false; }
+    }
+  } catch(err){
+    console.warn('Audio error', err);
+    if(!musicOn){ startAmbient(); playBtn.textContent='Pause nhạc'; musicOn=true; }
+    else { stopAmbient(); playBtn.textContent='Play nhạc'; musicOn=false; }
+  }
+});
+
+/* Simple ambient synth fallback */
+let audioCtx, osc, gainNode;
+function startAmbient(){
+  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  osc = audioCtx.createOscillator();
+  gainNode = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = 220;
+  gainNode.gain.value = 0.0015;
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  osc.start();
+  let t=0;
+  startAmbient._id = setInterval(()=>{
+    if(!osc) { clearInterval(startAmbient._id); return; }
+    osc.frequency.setValueAtTime(200 + Math.sin(t)*25, audioCtx.currentTime);
+    t += 0.02;
+  }, 60);
+}
+function stopAmbient(){
+  if(osc){ osc.stop(); osc.disconnect(); osc=null; }
+  if(gainNode){ gainNode.disconnect(); gainNode=null; }
+  if(audioCtx){ audioCtx.close(); audioCtx=null; }
+  clearInterval(startAmbient._id);
+}
+
+/* Download page as .html */
+document.getElementById('downloadBtn').addEventListener('click', ()=>{
+  const content = '<!doctype html>\\n' + document.documentElement.outerHTML;
+  const blob = new Blob([content], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'chuyen-nho-20-10.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+window.addEventListener('resize', ()=> {
+  const scene = document.querySelector('.scene');
+  if(scene) scenesEl.style.transform = `translateX(${ - idx * scene.offsetWidth }px)`;
+});
+</script>
+</body>
+</html>
