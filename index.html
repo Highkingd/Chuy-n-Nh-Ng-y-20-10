@@ -25,6 +25,22 @@
     color:#4b3240;
     -webkit-font-smoothing:antialiased;
     overflow:hidden;
+    position: relative; /* For background pattern */
+  }
+
+  /* NEW: Background pattern */
+  body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="1" fill="%23ffd1e8" fill-opacity="0.2"/></svg>');
+      background-size: 10px 10px;
+      opacity: 0.3;
+      z-index: -1;
+      pointer-events: none;
   }
 
   .wrap{
@@ -118,6 +134,7 @@
     background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,250,255,0.45));
     box-shadow: var(--shadow);
     position:relative;
+    overflow: hidden; /* Ensure background images don't overflow */
   }
 
   /* NEW: Scene transition effect */
@@ -139,6 +156,13 @@
     visibility: hidden;
     transition: opacity 600ms ease-in-out, visibility 600ms ease-in-out;
     will-change: opacity, visibility;
+
+    /* NEW: Scene background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* NEW: Parallax effect for background */
+    background-attachment: fixed; /* This makes the background fixed relative to the viewport */
   }
   .scene.active {
     opacity: 1;
@@ -146,7 +170,7 @@
   }
   /* END NEW */
 
-  .scene .bg{
+  .scene .bg{ /* This overlay is still useful for text readability */
     position:absolute;inset:0;
     border-radius:18px;
     pointer-events:none;
@@ -296,22 +320,22 @@
 
 <script>
 const scenes = [
-  { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương." },
-  { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn." },
-  { speaker: "Người kể", text: "Gửi em — người biết chăm từng li từng tí, nấu bữa, gói ghém ngăn nắp, và thỉnh thoảng quên dành cho bản thân một chút." },
-  { speaker: "", text: "Mình muốn tặng em một ngày nhỏ đầy bất ngờ: một lời khen, một cái ôm, một món quà bé xinh." },
-  { speaker: "Bạn", text: "Em xứng đáng được yêu thương bằng cả những điều giản dị nhất." },
-  { speaker: "Người kể", text: "Nếu hôm nay em nhận được hoa, xin nhớ rằng đó là lời cảm ơn cho nụ cười em trao." },
-  { speaker: "", text: "Có thể không phải hoa to, nhưng là hoa từ tấm lòng — và hoa ấy sẽ ngát." },
-  { speaker: "Bạn", text: "Mong em luôn rạng rỡ, tự tin và không ngại mơ mộng." },
-  { speaker: "Người kể", text: "Những điều nhỏ bé — một tin nhắn đúng lúc, một tách trà ấm — có thể làm ngày em bớt nặng nề." },
-  { speaker: "", text: "Hãy dành cho bản thân một chút dịu dàng, em nhé." },
-  { speaker: "Bạn", text: "Cảm ơn em vì đã tồn tại, vì đã làm bầu trời gần hơn một chút với nụ cười." },
-  { speaker: "Người kể", text: "Chúc em luôn hiền lành, cá tính, và có nhiều ngày đẹp như hôm nay." },
-  { speaker: "", text: "Gửi em — người con gái xinh đẹp: giữ nụ cười, giữ ấm áp, và đừng quên bản thân." },
-  { speaker: "Bạn", "Chúc mừng 20/10! Hy vọng em có một ngày đầy niềm vui và bánh ngọt." },
-  { speaker: "Người kể", text: "Hẹn gặp lại trong những khoảnh khắc bé nhỏ khác — nơi em luôn được yêu thương." },
-  { speaker: "", text: "💐 Tặng em: một lời chúc chân thành từ trái tim." }
+  { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương.", image: "scene-1.jpg" },
+  { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn.", image: "scene-2.jpg" },
+  { speaker: "Người kể", text: "Gửi em — người biết chăm từng li từng tí, nấu bữa, gói ghém ngăn nắp, và thỉnh thoảng quên dành cho bản thân một chút.", image: "scene-3.jpg" },
+  { speaker: "", text: "Mình muốn tặng em một ngày nhỏ đầy bất ngờ: một lời khen, một cái ôm, một món quà bé xinh.", image: "scene-4.jpg" },
+  { speaker: "Bạn", text: "Em xứng đáng được yêu thương bằng cả những điều giản dị nhất.", image: "scene-5.jpg" },
+  { speaker: "Người kể", text: "Nếu hôm nay em nhận được hoa, xin nhớ rằng đó là lời cảm ơn cho nụ cười em trao.", image: "scene-6.jpg" },
+  { speaker: "", text: "Có thể không phải hoa to, nhưng là hoa từ tấm lòng — và hoa ấy sẽ ngát.", image: "scene-7.jpg" },
+  { speaker: "Bạn", text: "Mong em luôn rạng rỡ, tự tin và không ngại mơ mộng.", image: "scene-8.jpg" },
+  { speaker: "Người kể", text: "Những điều nhỏ bé — một tin nhắn đúng lúc, một tách trà ấm — có thể làm ngày em bớt nặng nề.", image: "scene-9.jpg" },
+  { speaker: "", text: "Hãy dành cho bản thân một chút dịu dàng, em nhé.", image: "scene-10.jpg" },
+  { speaker: "Bạn", text: "Cảm ơn em vì đã tồn tại, vì đã làm bầu trời gần hơn một chút với nụ cười.", image: "scene-11.jpg" },
+  { speaker: "Người kể", text: "Chúc em luôn hiền lành, cá tính, và có nhiều ngày đẹp như hôm nay.", image: "scene-12.jpg" },
+  { speaker: "", text: "Gửi em — người con gái xinh đẹp: giữ nụ cười, giữ ấm áp, và đừng quên bản thân.", image: "scene-13.jpg" },
+  { speaker: "Bạn", text: "Chúc mừng 20/10! Hy vọng em có một ngày đầy niềm vui và bánh ngọt.", image: "scene-14.jpg" },
+  { speaker: "Người kể", text: "Hẹn gặp lại trong những khoảnh khắc bé nhỏ khác — nơi em luôn được yêu thương.", image: "scene-15.jpg" },
+  { speaker: "", text: "💐 Tặng em: một lời chúc chân thành từ trái tim.", image: "scene-16.jpg" }
 ];
 
 const timelineEl = document.getElementById('timeline');
@@ -332,6 +356,12 @@ scenes.forEach((s, i) => {
 
   const sc = document.createElement('div');
   sc.className = 'scene' + (i===0?' active':'');
+  if (s.image) {
+      sc.style.backgroundImage = `url(${s.image})`;
+  } else {
+      // Fallback for scenes without specific images
+      sc.style.backgroundImage = `url('placeholder-bg.jpg')`; // A default image
+  }
   sc.innerHTML = `
     <div class="bg"></div>
     <div style="display:flex;gap:12px;align-items:center">
@@ -357,7 +387,7 @@ scenes.forEach((s, i) => {
 });
 
 document.querySelectorAll('[data-next]').forEach(btn => btn.addEventListener('click', next));
-document.querySelectorAll('[data-skip]').forEach(btn => showFullText(idx));
+document.querySelectorAll('[data-skip]').forEach(btn => btn.addEventListener('click', () => showFullText(idx))); // Added event listener
 
 document.addEventListener('keydown', (e)=>{
   if (e.key === 'ArrowRight') next();
@@ -371,7 +401,6 @@ function updateUI(){
     n.classList.toggle('completed', i < idx);
   });
   
-  // NEW: Scene fade transition logic
   const allScenes = scenesEl.querySelectorAll('.scene');
   allScenes.forEach((sc, i) => {
     sc.classList.toggle('active', i === idx);
@@ -404,7 +433,6 @@ function typeScene(i) {
   el.innerHTML = '';
   let charIndex = 0;
   
-  // NEW: Enhanced character-by-character animation
   typingTimer = setInterval(() => {
     if (charIndex < str.length) {
       const charSpan = document.createElement('span');
@@ -459,9 +487,9 @@ function spawnPetal(big = false){
 }
 setInterval(() => spawnPetal(), 800);
 
-// --- NEW: Enhanced Audio Handling with Fade In/Out ---
 let audio = new Audio('./sunny.mp3');
 audio.loop = true;
+audio.volume = 0; // Start with 0 volume
 const playBtn = document.getElementById('playMusic');
 let audioFadeInterval = null;
 
@@ -469,7 +497,8 @@ function fadeAudio(targetVolume, duration = 1000) {
     if (audioFadeInterval) clearInterval(audioFadeInterval);
     
     const startVolume = audio.volume;
-    const step = (targetVolume - startVolume) / (duration / 50);
+    const steps = duration / 50; // Update every 50ms
+    const step = (targetVolume - startVolume) / steps;
     
     audioFadeInterval = setInterval(() => {
         const newVolume = audio.volume + step;
@@ -485,8 +514,8 @@ function fadeAudio(targetVolume, duration = 1000) {
 
 playBtn.addEventListener('click', async () => {
     try {
-        if (audio.paused) {
-            audio.volume = 0;
+        if (audio.paused || audio.volume === 0) { // Check both paused state and actual volume
+            audio.volume = 0; // Ensure volume is 0 before starting to fade in
             await audio.play();
             fadeAudio(0.5); // Fade in to 50% volume
             playBtn.textContent = 'Pause nhạc';
@@ -496,28 +525,33 @@ playBtn.addEventListener('click', async () => {
         }
     } catch (err) {
         console.warn("Audio play failed, starting fallback synth.", err);
-        startAmbient(); // Fallback if audio file fails
+        if (!audio.paused) { // Only start ambient if main audio failed to play
+            startAmbient(); 
+            playBtn.textContent = 'Pause nhạc (thay thế)'; // Update button text for fallback
+        } else {
+             stopAmbient();
+             playBtn.textContent = 'Play nhạc';
+        }
     }
 });
-// END NEW
 
 let audioCtx, osc, gainNode;
 function startAmbient(){
-  if(audioCtx) return;
+  if(audioCtx) return; // Prevent multiple instances
   audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   osc = audioCtx.createOscillator();
   gainNode = audioCtx.createGain();
   osc.type = 'sine';
   osc.frequency.value = 220;
-  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-  gainNode.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 1);
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime); // Start at 0 volume
+  gainNode.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 1); // Fade in over 1 second
   osc.connect(gainNode);
   gainNode.connect(audioCtx.destination);
   osc.start();
 }
 function stopAmbient(){
   if(gainNode) {
-      gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
+      gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1); // Fade out over 1 second
       setTimeout(() => {
           if (osc) { osc.stop(); osc.disconnect(); osc=null; }
           if (gainNode) { gainNode.disconnect(); gainNode=null; }
