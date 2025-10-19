@@ -487,7 +487,7 @@ function spawnPetal(big = false){
 }
 setInterval(() => spawnPetal(), 800);
 
-let audio = new Audio('https://www.free-stock-music.com/music/kodomoi-sunny.mp3');
+let audio = new Audio('./sunny.mp3');
 audio.loop = true;
 audio.volume = 0; // Start with 0 volume
 const playBtn = document.getElementById('playMusic');
@@ -525,10 +525,10 @@ playBtn.addEventListener('click', async () => {
         }
     } catch (err) {
         console.warn("Audio play failed, starting fallback synth.", err);
-        if (!audio.paused) { // Only start ambient if main audio failed to play
+        if (audio.paused) { // Fallback only if the main audio couldn't play AT ALL
             startAmbient(); 
-            playBtn.textContent = 'Pause nhạc (thay thế)'; // Update button text for fallback
-        } else {
+            playBtn.textContent = 'Pause nhạc (thay thế)';
+        } else { // If it was playing and is now paused, stop the fallback
              stopAmbient();
              playBtn.textContent = 'Play nhạc';
         }
