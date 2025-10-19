@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
-<title>Chuyện Nhỏ Ngày 20/10</title>
+<title>Chuyện Nhỏ Ngày 20/10 (Phiên bản nâng cấp)</title>
 <style>
   :root{
     --bg:#fff7fb;
@@ -127,6 +127,7 @@
     box-shadow:var(--shadow);
     overflow-x:auto;
     scrollbar-width:none;
+    backdrop-filter: blur(4px);
   }
   .timeline::-webkit-scrollbar{display:none}
 
@@ -146,8 +147,11 @@
     transition: all 0.3s ease;
   }
   .node .n{font-weight:700;color:var(--muted);font-size:13px}
-  .node.active{background:linear-gradient(180deg,var(--accent),#ffb0d1);color:white}
+  .node.active{background:linear-gradient(180deg,var(--accent),#ffb0d1);color:white; transform: scale(1.05);}
   .node.completed{opacity:0.7;transform:scale(0.98)}
+  .node:hover {
+      transform: translateY(-3px) scale(1.02);
+  }
 
   .stage{
     width:100%;
@@ -354,22 +358,22 @@
 
 <script>
 const scenes = [
-  { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương.", image: "scene-1.jpg" },
-  { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn.", image: "scene-2.jpg" },
-  { speaker: "Người kể", text: "Gửi em — người làm mọi thứ thật chỉn chu, trừ mỗi việc “chăm mình” là vẫn đang để chế độ thử nghiệm.", image: "scene-3.jpg" },
-  { speaker: "", text: "Mình muốn tặng em một ngày nhỏ đầy bất ngờ: một lời khen, một cái ôm, một món quà bé xinh.", image: "scene-4.jpg" },
-  { speaker: "Bạn", text: "Em xứng đáng được yêu thương bằng cả những điều giản dị nhất.", image: "scene-5.jpg" },
-  { speaker: "Người kể", text: "Nếu hôm nay em nhận được hoa, xin nhớ rằng đó là lời cảm ơn cho nụ cười em trao.", image: "scene-6.jpg" },
-  { speaker: "", text: "Có thể không phải hoa to, nhưng là hoa từ tấm lòng — và hoa ấy sẽ ngát.", image: "scene-7.jpg" },
-  { speaker: "Bạn", text: "Mong em luôn rạng rỡ, tự tin và không ngại mơ mộng.", image: "scene-8.jpg" },
-  { speaker: "Người kể", text: "Những điều nhỏ bé — một tin nhắn đúng lúc, một tách trà ấm — có thể làm ngày em bớt nặng nề.", image: "scene-9.jpg" },
-  { speaker: "", text: "Hãy dành cho bản thân một chút dịu dàng, em nhé.", image: "scene-10.jpg" },
-  { speaker: "Bạn", text: "Cảm ơn em vì đã tồn tại, vì đã làm bầu trời gần hơn một chút với nụ cười.", image: "scene-11.jpg" },
-  { speaker: "Người kể", text: "Chúc em luôn hiền lành, cá tính, và có nhiều ngày đẹp như hôm nay.", image: "scene-12.jpg" },
-  { speaker: "", text: "Gửi em — người con gái xinh đẹp: giữ nụ cười, giữ ấm áp, và đừng quên bản thân.", image: "scene-13.jpg" },
-  { speaker: "Bạn", text: "Chúc mừng 20/10! Hy vọng em có một ngày đầy niềm vui và bánh ngọt.", image: "scene-14.jpg" },
-  { speaker: "Người kể", text: "Hẹn gặp lại trong những khoảnh khắc bé nhỏ khác — nơi em luôn được yêu thương.", image: "scene-15.jpg" },
-  { speaker: "", text: "💐 Tặng em: một lời chúc chân thành từ trái tim.", image: "scene-16.jpg" }
+  { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương.", image: "https://images.unsplash.com/photo-1518602164578-cd0074062767?q=80&w=2070&auto=format&fit=crop" },
+  { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn.", image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=1887&auto=format&fit=crop" },
+  { speaker: "Người kể", text: "Gửi em — người làm mọi thứ thật chỉn chu, trừ mỗi việc “chăm mình” là vẫn đang để chế độ thử nghiệm.", image: "https://images.unsplash.com/photo-1509904838423-837fab69b4a4?q=80&w=2070&auto=format&fit=crop" },
+  { speaker: "", text: "Mình muốn tặng em một ngày nhỏ đầy bất ngờ: một lời khen, một cái ôm, một món quà bé xinh.", image: "https://images.unsplash.com/photo-1510076857177-7470076d4098?q=80&w=2072&auto=format&fit=crop" },
+  { speaker: "Bạn", text: "Em xứng đáng được yêu thương bằng cả những điều giản dị nhất.", image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2020&auto=format&fit=crop" },
+  { speaker: "Người kể", text: "Nếu hôm nay em nhận được hoa, xin nhớ rằng đó là lời cảm ơn cho nụ cười em trao.", image: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=2070&auto=format&fit=crop" },
+  { speaker: "", text: "Có thể không phải hoa to, nhưng là hoa từ tấm lòng — và hoa ấy sẽ ngát.", image: "https://images.unsplash.com/photo-1457086663246-a4cde7327e5a?q=80&w=1887&auto=format&fit=crop" },
+  { speaker: "Bạn", text: "Mong em luôn rạng rỡ, tự tin và không ngại mơ mộng.", image: "https://images.unsplash.com/photo-1541832044813-f12741587d55?q=80&w=1887&auto=format&fit=crop" },
+  { speaker: "Người kể", text: "Những điều nhỏ bé — một tin nhắn đúng lúc, một tách trà ấm — có thể làm ngày em bớt nặng nề.", image: "https://images.unsplash.com/photo-1555981425-45a1f288319f?q=80&w=1964&auto=format&fit=crop" },
+  { speaker: "", text: "Hãy dành cho bản thân một chút dịu dàng, em nhé.", image: "https://images.unsplash.com/photo-1604192257850-30464f15a6b7?q=80&w=1887&auto=format&fit=crop" },
+  { speaker: "Bạn", text: "Cảm ơn em vì đã tồn tại, vì đã làm bầu trời gần hơn một chút với nụ cười.", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop" },
+  { speaker: "Người kể", text: "Chúc em luôn hiền lành, cá tính, và có nhiều ngày đẹp như hôm nay.", image: "https://images.unsplash.com/photo-1504593811423-6dd665756598?q=80&w=2070&auto=format&fit=crop" },
+  { speaker: "", text: "Gửi em — người con gái xinh đẹp: giữ nụ cười, giữ ấm áp, và đừng quên bản thân.", image: "https://images.unsplash.com/photo-1588196749597-9455726c2126?q=80&w=1974&auto=format&fit=crop" },
+  { speaker: "Bạn", text: "Chúc mừng 20/10! Hy vọng em có một ngày đầy niềm vui và bánh ngọt.", image: "https://images.unsplash.com/photo-1558961363-fa8fdfc9db3b?q=80&w=1887&auto=format&fit=crop" },
+  { speaker: "Người kể", text: "Hẹn gặp lại trong những khoảnh khắc bé nhỏ khác — nơi em luôn được yêu thương.", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" },
+  { speaker: "", text: "💐 Tặng em: một lời chúc chân thành từ trái tim.", image: "https://images.unsplash.com/photo-1562601579-599dec174238?q=80&w=1887&auto=format&fit=crop" }
 ];
 
 const timelineEl = document.getElementById('timeline');
@@ -394,24 +398,18 @@ scenes.forEach((s, i) => {
       sc.style.backgroundImage = `url(${s.image})`;
   } else {
       // Fallback for scenes without specific images
-      sc.style.backgroundImage = `url('placeholder-bg.jpg')`; // A default image
+      sc.style.backgroundImage = `url('https://images.unsplash.com/photo-1587590858485-9232585403e6?q=80&w=2070&auto=format&fit=crop')`; // A default image
   }
   sc.innerHTML = `
     <div class="bg"></div>
-    <div style="display:flex;gap:12px;align-items:center">
-      <div style="width:84px;height:84px;border-radius:16px;background:linear-gradient(180deg,#fff,#ffe6f2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#8b415f">♡</div>
-      <div>
-        <div style="font-size:13px;color:var(--muted)">Scene ${i+1}</div>
-        <div style="font-weight:800;font-size:20px;margin-top:6px">${s.speaker || ''}</div>
-      </div>
-    </div>
     <div class="message-box">
-      <div class="speaker">${s.speaker || ''}</div>
+      <div class="speaker">${s.speaker || '...'}</div>
       <div class="text" id="text-${i}"></div>
       <div class="meta">
         <div class="actions">
+          <button class="btn small" data-prev>Trước</button>
           <button class="btn small" data-next>Tiếp</button>
-          <button class="ghost small" data-skip>Bỏ tốc độ</button>
+          <button class="ghost small" data-skip>Bỏ qua tốc độ</button>
         </div>
         <div style="text-align:right;color:var(--muted);font-size:13px">20/10 · Chuyện nhỏ dễ thương</div>
       </div>
@@ -421,7 +419,8 @@ scenes.forEach((s, i) => {
 });
 
 document.querySelectorAll('[data-next]').forEach(btn => btn.addEventListener('click', next));
-document.querySelectorAll('[data-skip]').forEach(btn => btn.addEventListener('click', () => showFullText(idx))); // Added event listener
+document.querySelectorAll('[data-prev]').forEach(btn => btn.addEventListener('click', prev));
+document.querySelectorAll('[data-skip]').forEach(btn => btn.addEventListener('click', () => showFullText(idx)));
 
 document.addEventListener('keydown', (e)=>{
   if (e.key === 'ArrowRight') next();
@@ -559,9 +558,9 @@ playBtn.addEventListener('click', async () => {
         }
     } catch (err) {
         console.warn("Audio play failed, starting fallback synth.", err);
-        if (!audio.paused) { // Only start ambient if main audio failed to play
+        if (!window.ambientAudio) {
             startAmbient(); 
-            playBtn.textContent = 'Pause nhạc (thay thế)'; // Update button text for fallback
+            playBtn.textContent = 'Pause nhạc';
         } else {
              stopAmbient();
              playBtn.textContent = 'Play nhạc';
@@ -571,25 +570,28 @@ playBtn.addEventListener('click', async () => {
 
 let audioCtx, osc, gainNode;
 function startAmbient(){
-  if(audioCtx) return; // Prevent multiple instances
+  if(audioCtx) return;
+  window.ambientAudio = true;
   audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   osc = audioCtx.createOscillator();
   gainNode = audioCtx.createGain();
   osc.type = 'sine';
-  osc.frequency.value = 220;
-  gainNode.gain.setValueAtTime(0, audioCtx.currentTime); // Start at 0 volume
-  gainNode.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 1); // Fade in over 1 second
+  osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+  osc.frequency.linearRampToValueAtTime(440, audioCtx.currentTime + 10);
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 2);
   osc.connect(gainNode);
   gainNode.connect(audioCtx.destination);
   osc.start();
 }
 function stopAmbient(){
   if(gainNode) {
-      gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1); // Fade out over 1 second
+      gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
       setTimeout(() => {
           if (osc) { osc.stop(); osc.disconnect(); osc=null; }
           if (gainNode) { gainNode.disconnect(); gainNode=null; }
           if (audioCtx) { audioCtx.close(); audioCtx=null; }
+          window.ambientAudio = false;
       }, 1000);
   }
 }
@@ -599,7 +601,7 @@ document.getElementById('downloadBtn').addEventListener('click', ()=>{
   const blob = new Blob([content], {type:'text/html;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'chuyen-nho-20-10.html';
+  a.download = 'chuyen-nho-20-10-nang-cap.html';
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -632,7 +634,10 @@ function createBokeh() {
 }
 
 // Tạo một đốm sáng mỗi giây
-setInterval(createBokeh, 1000);
+for(let i = 0; i < 10; i++) {
+    createBokeh();
+}
+setInterval(createBokeh, 1500);
 
 </script>
 </body>
