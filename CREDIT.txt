@@ -1,8 +1,0 @@
-CREDIT for audio (please include when publishing):
-
-Track: "Sunny" — KODOMOi
-Suggested sources: Free-Stock-Music, SoundCloud, Bandcamp
-When publishing (e.g., GitHub Pages), include a credit line like:
-"Nhạc nền: Sunny — KODOMOi (tải từ Free-Stock-Music / SoundCloud / Bandcamp)."
-
-Check the original source for exact license and attribution requirements before public use.
