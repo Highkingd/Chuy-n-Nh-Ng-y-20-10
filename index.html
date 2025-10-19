@@ -319,6 +319,9 @@
 </template>
 
 <script>
+// *** SỬA LỖI GITHUB PAGES: Thay đổi tên repo nếu cần ***
+const repoName = 'chuyen-nho-20-10'; // <-- THAY TÊN REPO CỦA BẠN VÀO ĐÂY NẾU KHÁC
+
 const scenes = [
   { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương.", image: "scene-1.jpg" },
   { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn.", image: "scene-2.jpg" },
@@ -356,11 +359,16 @@ scenes.forEach((s, i) => {
 
   const sc = document.createElement('div');
   sc.className = 'scene' + (i===0?' active':'');
+  
+  // *** SỬA LỖI GITHUB PAGES: Thêm tên repo vào đường dẫn ảnh ***
+  const imagePath = `/${repoName}/${s.image}`;
+  const placeholderPath = `/${repoName}/placeholder-bg.jpg`;
+
   if (s.image) {
-      sc.style.backgroundImage = `url(${s.image})`;
+      sc.style.backgroundImage = `url(${imagePath})`;
   } else {
       // Fallback for scenes without specific images
-      sc.style.backgroundImage = `url('placeholder-bg.jpg')`; // A default image
+      sc.style.backgroundImage = `url(${placeholderPath})`; // A default image
   }
   sc.innerHTML = `
     <div class="bg"></div>
@@ -487,7 +495,9 @@ function spawnPetal(big = false){
 }
 setInterval(() => spawnPetal(), 800);
 
-let audio = new Audio('./sunny.mp3');
+// *** SỬA LỖI GITHUB PAGES: Thêm tên repo vào đường dẫn nhạc ***
+const audioPath = `/${repoName}/sunny.mp3`;
+let audio = new Audio(audioPath);
 audio.loop = true;
 audio.volume = 0; // Start with 0 volume
 const playBtn = document.getElementById('playMusic');
