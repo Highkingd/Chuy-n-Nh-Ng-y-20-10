@@ -26,6 +26,9 @@
     -webkit-font-smoothing:antialiased;
     overflow:hidden;
     position: relative; /* For background pattern */
+    
+    /* DECOR MỚI: Con trỏ chuột hình trái tim */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23ff7ab6" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'), auto;
   }
 
   /* NEW: Background pattern */
@@ -42,6 +45,35 @@
       z-index: -1;
       pointer-events: none;
   }
+
+  /* DECOR MỚI: Hiệu ứng Bokeh */
+  .bokeh-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2; /* Nằm dưới mọi thứ */
+  }
+  .bokeh-background .circle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 122, 182, 0.4) 0%, rgba(255, 122, 182, 0) 70%);
+    animation: floatUp 20s infinite ease-in-out;
+  }
+  @keyframes floatUp {
+    from {
+      transform: translateY(100vh) scale(1);
+      opacity: 0.7;
+    }
+    to {
+      transform: translateY(-10vh) scale(1.2);
+      opacity: 0;
+    }
+  }
+  /* Kết thúc hiệu ứng Bokeh */
+
 
   .wrap{
     height:100vh;
@@ -310,6 +342,8 @@
 
 </div>
 
+<div class="bokeh-background"></div>
+
 <template id="petal-template">
   <div class="petal">
     <svg viewBox="0 0 24 24" width="24" height="24" >
@@ -319,9 +353,6 @@
 </template>
 
 <script>
-// *** SỬA LỖI GITHUB PAGES: Thay đổi tên repo nếu cần ***
-const repoName = 'chuyen-nho-20-10'; // <-- THAY TÊN REPO CỦA BẠN VÀO ĐÂY NẾU KHÁC
-
 const scenes = [
   { speaker: "Người kể", text: "Hôm nay nắng nhẹ — trời như khoác chiếc áo pastel, và mình nghĩ ngay đến những người con gái dễ thương.", image: "scene-1.jpg" },
   { speaker: "Bạn", text: "Gửi em — người luôn tươi cười kể cả khi bận rộn.", image: "scene-2.jpg" },
@@ -359,16 +390,11 @@ scenes.forEach((s, i) => {
 
   const sc = document.createElement('div');
   sc.className = 'scene' + (i===0?' active':'');
-  
-  // *** SỬA LỖI GITHUB PAGES: Thêm tên repo vào đường dẫn ảnh ***
-  const imagePath = `/${repoName}/${s.image}`;
-  const placeholderPath = `/${repoName}/placeholder-bg.jpg`;
-
   if (s.image) {
-      sc.style.backgroundImage = `url(${imagePath})`;
+      sc.style.backgroundImage = `url(${s.image})`;
   } else {
       // Fallback for scenes without specific images
-      sc.style.backgroundImage = `url(${placeholderPath})`; // A default image
+      sc.style.backgroundImage = `url('placeholder-bg.jpg')`; // A default image
   }
   sc.innerHTML = `
     <div class="bg"></div>
@@ -495,9 +521,7 @@ function spawnPetal(big = false){
 }
 setInterval(() => spawnPetal(), 800);
 
-// *** SỬA LỖI GITHUB PAGES: Thêm tên repo vào đường dẫn nhạc ***
-const audioPath = `/${repoName}/sunny.mp3`;
-let audio = new Audio(audioPath);
+let audio = new Audio('./sunny.mp3');
 audio.loop = true;
 audio.volume = 0; // Start with 0 volume
 const playBtn = document.getElementById('playMusic');
@@ -535,10 +559,10 @@ playBtn.addEventListener('click', async () => {
         }
     } catch (err) {
         console.warn("Audio play failed, starting fallback synth.", err);
-        if (audio.paused) { // Fallback only if the main audio couldn't play AT ALL
+        if (!audio.paused) { // Only start ambient if main audio failed to play
             startAmbient(); 
-            playBtn.textContent = 'Pause nhạc (thay thế)';
-        } else { // If it was playing and is now paused, stop the fallback
+            playBtn.textContent = 'Pause nhạc (thay thế)'; // Update button text for fallback
+        } else {
              stopAmbient();
              playBtn.textContent = 'Play nhạc';
         }
@@ -580,6 +604,36 @@ document.getElementById('downloadBtn').addEventListener('click', ()=>{
   a.click();
   a.remove();
 });
+
+// DECOR MỚI: Thêm code JavaScript cho hiệu ứng Bokeh
+function createBokeh() {
+  const bokehContainer = document.querySelector('.bokeh-background');
+  if (!bokehContainer) return;
+  const circle = document.createElement('div');
+  circle.classList.add('circle');
+
+  const size = Math.random() * 150 + 50; // Kích thước từ 50px đến 200px
+  circle.style.width = `${size}px`;
+  circle.style.height = `${size}px`;
+  circle.style.left = `${Math.random() * 100}%`;
+  
+  // Thời gian animation và độ trễ ngẫu nhiên
+  const duration = Math.random() * 10 + 15; // từ 15s đến 25s
+  const delay = Math.random() * 10;
+  circle.style.animationDuration = `${duration}s`;
+  circle.style.animationDelay = `${delay}s`;
+
+  bokehContainer.appendChild(circle);
+
+  // Xóa đốm sáng sau khi hoàn thành animation để tiết kiệm tài nguyên
+  setTimeout(() => {
+    circle.remove();
+  }, (duration + delay) * 1000);
+}
+
+// Tạo một đốm sáng mỗi giây
+setInterval(createBokeh, 1000);
+
 </script>
 </body>
 </html>
