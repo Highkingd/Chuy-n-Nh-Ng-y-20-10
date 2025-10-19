@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
-<title>Chuyện Nhỏ Ngày 20/10 (Phiên bản 900px)</title>
+<title>Chuyện Nhỏ Ngày 20/10 (Phiên bản 720px - Fix lỗi chữ)</title>
 <style>
   :root{
     --bg:#fff7fb;
@@ -14,7 +14,7 @@
     --glass: rgba(255,255,255,0.6);
     --shadow: 0 8px 30px rgba(120,80,110,0.12);
     --timeline-height:120px;
-    --card-w: 900px; /* <<< ĐÃ THAY ĐỔI */
+    --card-w: 720px; /* <<< ĐÃ TRỞ VỀ KÍCH THƯỚC CŨ */
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -159,7 +159,7 @@
   }
   .stage-viewport{
     width:var(--card-w);
-    height:675px; /* <<< ĐÃ THAY ĐỔI */
+    height:540px; /* <<< ĐÃ TRỞ VỀ KÍCH THƯỚC CŨ */
     border-radius:18px;
     background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,250,255,0.45));
     box-shadow: var(--shadow);
@@ -209,13 +209,18 @@
     margin-top:auto;
     background:var(--glass);
     border-radius:14px;
-    padding:18px;
+    padding: 22px; /* <<< ĐÃ TĂNG LÊN */
     box-shadow: 0 6px 24px rgba(100,50,80,0.06);
     backdrop-filter: blur(6px);
     border:1px solid rgba(255,255,255,0.6);
   }
   .speaker{font-weight:700;color:#6b3750;margin-bottom:6px}
-  .text{font-size:18px;line-height:1.45;min-height:68px;white-space:pre-wrap}
+  .text{
+      font-size:18px;
+      line-height:1.45;
+      min-height: 80px; /* <<< ĐÃ TĂNG LÊN */
+      white-space:pre-wrap
+    }
   .meta{display:flex;align-items:center;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:13px}
 
   .actions{display:flex;gap:8px}
@@ -277,7 +282,7 @@
       }
   }
 
-  @media (max-width:1000px){
+  @media (max-width:840px){ /* <<< ĐÃ TRỞ VỀ KÍCH THƯỚC CŨ */
     :root{--card-w:92vw}
     .stage-viewport{ height: auto; aspect-ratio: 4 / 3; }
     .timeline{width:calc(100% - 120px)}
