@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
-<title>Chuyện Nhỏ Ngày 20/10 (Phiên bản nâng cấp)</title>
+<title>Chuyện Nhỏ Ngày 20/10 (Phiên bản 900px)</title>
 <style>
   :root{
     --bg:#fff7fb;
@@ -14,7 +14,7 @@
     --glass: rgba(255,255,255,0.6);
     --shadow: 0 8px 30px rgba(120,80,110,0.12);
     --timeline-height:120px;
-    --card-w: 720px;
+    --card-w: 900px; /* <<< ĐÃ THAY ĐỔI */
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -25,13 +25,10 @@
     color:#4b3240;
     -webkit-font-smoothing:antialiased;
     overflow:hidden;
-    position: relative; /* For background pattern */
-    
-    /* DECOR MỚI: Con trỏ chuột hình trái tim */
+    position: relative;
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23ff7ab6" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'), auto;
   }
 
-  /* NEW: Background pattern */
   body::before {
       content: '';
       position: absolute;
@@ -46,7 +43,6 @@
       pointer-events: none;
   }
 
-  /* DECOR MỚI: Hiệu ứng Bokeh */
   .bokeh-background {
     position: fixed;
     top: 0;
@@ -54,7 +50,7 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -2; /* Nằm dưới mọi thứ */
+    z-index: -2;
   }
   .bokeh-background .circle {
     position: absolute;
@@ -72,8 +68,6 @@
       opacity: 0;
     }
   }
-  /* Kết thúc hiệu ứng Bokeh */
-
 
   .wrap{
     height:100vh;
@@ -165,15 +159,14 @@
   }
   .stage-viewport{
     width:var(--card-w);
-    height:540px;
+    height:675px; /* <<< ĐÃ THAY ĐỔI */
     border-radius:18px;
     background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,250,255,0.45));
     box-shadow: var(--shadow);
     position:relative;
-    overflow: hidden; /* Ensure background images don't overflow */
+    overflow: hidden;
   }
 
-  /* NEW: Scene transition effect */
   .scenes{
     position:relative;
     width:100%;
@@ -192,21 +185,17 @@
     visibility: hidden;
     transition: opacity 600ms ease-in-out, visibility 600ms ease-in-out;
     will-change: opacity, visibility;
-
-    /* NEW: Scene background image */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /* NEW: Parallax effect for background */
-    background-attachment: fixed; /* This makes the background fixed relative to the viewport */
+    background-attachment: fixed;
   }
   .scene.active {
     opacity: 1;
     visibility: visible;
   }
-  /* END NEW */
 
-  .scene .bg{ /* This overlay is still useful for text readability */
+  .scene .bg{
     position:absolute;inset:0;
     border-radius:18px;
     pointer-events:none;
@@ -263,7 +252,6 @@
   }
   .petal svg{display:block}
   
-  /* NEW: Page load animations */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -276,7 +264,6 @@
   .stage { animation-delay: 0.3s; }
   footer { animation-delay: 0.4s; }
   
-  /* NEW: Enhanced text animation */
   .text .char {
       display: inline-block;
       opacity: 0;
@@ -290,8 +277,9 @@
       }
   }
 
-  @media (max-width:840px){
+  @media (max-width:1000px){
     :root{--card-w:92vw}
+    .stage-viewport{ height: auto; aspect-ratio: 4 / 3; }
     .timeline{width:calc(100% - 120px)}
   }
 
@@ -367,7 +355,7 @@ const scenes = [
   { speaker: "", text: "Có thể không phải hoa to, nhưng là hoa từ tấm lòng — và hoa ấy sẽ ngát.", image: "https://images.unsplash.com/photo-1457086663246-a4cde7327e5a?q=80&w=1887&auto=format&fit=crop" },
   { speaker: "Bạn", text: "Mong em luôn rạng rỡ, tự tin và không ngại mơ mộng.", image: "https://images.unsplash.com/photo-1541832044813-f12741587d55?q=80&w=1887&auto=format&fit=crop" },
   { speaker: "Người kể", text: "Những điều nhỏ bé — một tin nhắn đúng lúc, một tách trà ấm — có thể làm ngày em bớt nặng nề.", image: "https://images.unsplash.com/photo-1555981425-45a1f288319f?q=80&w=1964&auto=format&fit=crop" },
-  { speaker: "", text: "Hãy dành cho bản thân một chút dịu dàng, em nhé.", image: "https://images.unsplash.com/photo-1604192257850-30464f15a6b7?q=80&w=1887&auto=format&fit=crop" },
+  { speaker: "", text: "Hãy dành cho bản thân một chút dịu dàng, em nhé.", image: "https://images.unsplash.com/photo-160419227850-30464f15a6b7?q=80&w=1887&auto=format&fit=crop" },
   { speaker: "Bạn", text: "Cảm ơn em vì đã tồn tại, vì đã làm bầu trời gần hơn một chút với nụ cười.", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop" },
   { speaker: "Người kể", text: "Chúc em luôn hiền lành, cá tính, và có nhiều ngày đẹp như hôm nay.", image: "https://images.unsplash.com/photo-1504593811423-6dd665756598?q=80&w=2070&auto=format&fit=crop" },
   { speaker: "", text: "Gửi em — người con gái xinh đẹp: giữ nụ cười, giữ ấm áp, và đừng quên bản thân.", image: "https://images.unsplash.com/photo-1588196749597-9455726c2126?q=80&w=1974&auto=format&fit=crop" },
@@ -397,8 +385,7 @@ scenes.forEach((s, i) => {
   if (s.image) {
       sc.style.backgroundImage = `url(${s.image})`;
   } else {
-      // Fallback for scenes without specific images
-      sc.style.backgroundImage = `url('https://images.unsplash.com/photo-1587590858485-9232585403e6?q=80&w=2070&auto=format&fit=crop')`; // A default image
+      sc.style.backgroundImage = `url('https://images.unsplash.com/photo-1587590858485-9232585403e6?q=80&w=2070&auto=format&fit=crop')`;
   }
   sc.innerHTML = `
     <div class="bg"></div>
@@ -522,7 +509,7 @@ setInterval(() => spawnPetal(), 800);
 
 let audio = new Audio('./sunny.mp3');
 audio.loop = true;
-audio.volume = 0; // Start with 0 volume
+audio.volume = 0;
 const playBtn = document.getElementById('playMusic');
 let audioFadeInterval = null;
 
@@ -530,7 +517,7 @@ function fadeAudio(targetVolume, duration = 1000) {
     if (audioFadeInterval) clearInterval(audioFadeInterval);
     
     const startVolume = audio.volume;
-    const steps = duration / 50; // Update every 50ms
+    const steps = duration / 50;
     const step = (targetVolume - startVolume) / steps;
     
     audioFadeInterval = setInterval(() => {
@@ -547,13 +534,13 @@ function fadeAudio(targetVolume, duration = 1000) {
 
 playBtn.addEventListener('click', async () => {
     try {
-        if (audio.paused || audio.volume === 0) { // Check both paused state and actual volume
-            audio.volume = 0; // Ensure volume is 0 before starting to fade in
+        if (audio.paused || audio.volume === 0) {
+            audio.volume = 0;
             await audio.play();
-            fadeAudio(0.5); // Fade in to 50% volume
+            fadeAudio(0.5);
             playBtn.textContent = 'Pause nhạc';
         } else {
-            fadeAudio(0); // Fade out
+            fadeAudio(0);
             playBtn.textContent = 'Play nhạc';
         }
     } catch (err) {
@@ -607,33 +594,29 @@ document.getElementById('downloadBtn').addEventListener('click', ()=>{
   a.remove();
 });
 
-// DECOR MỚI: Thêm code JavaScript cho hiệu ứng Bokeh
 function createBokeh() {
   const bokehContainer = document.querySelector('.bokeh-background');
   if (!bokehContainer) return;
   const circle = document.createElement('div');
   circle.classList.add('circle');
 
-  const size = Math.random() * 150 + 50; // Kích thước từ 50px đến 200px
+  const size = Math.random() * 150 + 50;
   circle.style.width = `${size}px`;
   circle.style.height = `${size}px`;
   circle.style.left = `${Math.random() * 100}%`;
   
-  // Thời gian animation và độ trễ ngẫu nhiên
-  const duration = Math.random() * 10 + 15; // từ 15s đến 25s
+  const duration = Math.random() * 10 + 15;
   const delay = Math.random() * 10;
   circle.style.animationDuration = `${duration}s`;
   circle.style.animationDelay = `${delay}s`;
 
   bokehContainer.appendChild(circle);
 
-  // Xóa đốm sáng sau khi hoàn thành animation để tiết kiệm tài nguyên
   setTimeout(() => {
     circle.remove();
   }, (duration + delay) * 1000);
 }
 
-// Tạo một đốm sáng mỗi giây
 for(let i = 0; i < 10; i++) {
     createBokeh();
 }
